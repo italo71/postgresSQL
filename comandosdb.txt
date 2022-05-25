@@ -1,0 +1,76 @@
+CREATE DATABASE teste_db;
+CREATE TABLE cliente(
+	cliente_id SERIAL PRIMARY KEY,
+	nome VARCHAR(255),
+	data_nascimento DATE,
+	sexo BOOL,
+	endereco VARCHAR(255),
+	cep VARCHAR(255),
+	bairro VARCHAR(255),
+	numero VARCHAR(255),
+	complemento VARCHAR(255),
+	cidade VARCHAR(255),
+	estado VARCHAR(255)
+);
+CREATE TABLE empresa(
+	empresa_id SERIAL PRIMARY KEY,
+	razao_social VARCHAR(255),
+	nome_fantasia VARCHAR(255),
+	email VARCHAR(255),
+	cnpj VARCHAR(14)
+);
+CREATE TABLE produto(
+	produto_id SERIAL PRIMARY KEY,
+	empresa_id INT,
+	FOREIGN KEY (empresa_id) REFERENCES empresa(empresa_id),
+	descricao VARCHAR(255),
+	quantidade INT,
+	valor FLOAT(2),
+	valor_promocional FLOAT(2),
+	data_inicio_promocao DATE,
+	data_fim_promocao DATE
+);
+CREATE TABLE venda(
+	venda_id SERIAL PRIMARY KEY,
+	empresa_id INT,
+	FOREIGN KEY (empresa_id) REFERENCES empresa(empresa_id),
+	cliente_id INT,
+	FOREIGN KEY (cliente_id) REFERENCES cliente(cliente_id),
+	data_venda DATE,
+	total_pago FLOAT(2)
+);
+CREATE TABLE venda_produto(
+	venda_produto_id SERIAL PRIMARY KEY,
+	venda_id INT,
+	FOREIGN KEY (venda_id) REFERENCES venda(venda_id),
+	produto_id INT,
+	FOREIGN KEY (produto_id) REFERENCES produto(produto_id),
+	valor_unitario FLOAT(2),
+	quantidade INT,
+	valor_total FLOAT(2),
+	desconto_porcent FLOAT(2),
+	valor_total_sem_desconto FLOAT(2)
+);
+ALTER TABLE cliente ALTER COLUMN nome SET NOT NULL,
+ALTER TABLE cliente ALTER COLUMN cliente_id SET NOT NULL,
+ALTER TABLE cliente ALTER COLUMN sexo SET NOT NULL,
+ALTER TABLE cliente ALTER COLUMN endereco SET NOT NULL,
+ALTER TABLE cliente ALTER COLUMN cep SET NOT NULL,
+ALTER TABLE cliente ALTER COLUMN bairro SET NOT NULL,
+ALTER TABLE cliente ALTER COLUMN numero SET NOT NULL,
+ALTER TABLE cliente ALTER COLUMN cidade SET NOT NULL,
+ALTER TABLE cliente ALTER COLUMN estado SET NOT NULL,
+ALTER TABLE empresa ALTER COLUMN empresa_id SET NOT NULL,
+ALTER TABLE empresa ALTER COLUMN razao_social SET NOT NULL,
+ALTER TABLE empresa ALTER COLUMN email SET NOT NULL,
+ALTER TABLE empresa ALTER COLUMN cnpj SET NOT NULL,
+ALTER TABLE produto ALTER COLUMN produto_id SET NOT NULL,
+ALTER TABLE produto ALTER COLUMN descricao SET NOT NULL,
+ALTER TABLE produto ALTER COLUMN quantidade SET NOT NULL,
+ALTER TABLE produto ALTER COLUMN valor SET NOT NULL,
+ALTER TABLE venda ALTER COLUMN venda_id SET NOT NULL,
+ALTER TABLE venda ALTER COLUMN data_venda SET NOT NULL,
+ALTER TABLE venda ALTER COLUMN total_pago SET NOT NULL,
+ALTER TABLE venda_produto ALTER COLUMN venda_produto_id SET NOT NULL,
+ALTER TABLE venda_produto ALTER COLUMN valor_unitario SET NOT NULL,
+ALTER TABLE venda_produto ALTER COLUMN quantidade SET NOT NULL;
